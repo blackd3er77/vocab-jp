@@ -30,7 +30,7 @@
                    "Open Sans", "Helvetica Neue", sans-serif;
       margin: 0;
       background: #f5f5f5;
-      padding-top: 74px; /* chừa chỗ cho thanh header cố định */
+      padding-top: 112px; /* chừa chỗ cho thanh header cố định */
       color: #111827;
   }
 
@@ -42,10 +42,41 @@
       background: rgba(255,255,255,.92);
       backdrop-filter: saturate(180%) blur(6px);
       border-bottom: 1px solid #e5e7eb;
-      padding: 10px 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      padding: 8px 12px;            /* giảm padding tổng, mỗi hàng sẽ có padding riêng */
+      display: block;   
+
+  }
+
+  /* hàng trên: nút chính */
+  .toolbar-row{
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  /* hàng dưới: counter + nút phụ (sau này) */
+  .toolbar-sub{
+    margin-top: 6px;
+    /* padding-top: 6px; */
+    /* border-top: 1px solid #ececec; */
+    display: flex; align-items: center; gap: 8px;
+    flex-wrap: wrap;              /* để không bị cắt trên iPhone hẹp */
+    font-size: 12px; color: #6b7280;
+  }
+
+  /* spacer để đẩy counter ra phải */
+  .sub-spacer {
+    flex: 1;
+  }
+
+  /* tiện ích flex */
+  .spacer{ flex: 1 1 auto; }
+
+  /* nút nhỏ cho hàng dưới (nếu cần) */
+  .btn-sm{
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 6px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
   }
 
   /* dropdown mức JLPT: bỏ label “Cấp:” để tiết kiệm bề ngang */
@@ -188,18 +219,31 @@
 
 <!-- ===================== HEADER TOOLBAR ========================== -->
 <div class="toolbar">
-  <select id="levelSelect"></select>
 
-  <button id="btnHira" class="btn">Hira</button>
-  <button id="btnMean" class="btn">Nghĩa</button>
-  <button id="btnSino" class="btn">Hán</button>
+  <!-- HÀNG TRÊN: nút chính -->
+  <div class="toolbar-row">
+    <select id="levelSelect"></select>
 
-  <button id="btnCollapse" class="btn">Del</button>
-  <button id="btnReset" class="btn">Reset</button>
+    <button id="btnHira" class="btn">Hira</button>
+    <button id="btnMean" class="btn">Nghĩa</button>
+    <button id="btnSino" class="btn">Hán</button>
 
-  <div class="spacer"></div>
-  <span id="counter"></span>
+
+    <div class="spacer"></div>
+  </div>
+
+  <!-- HÀNG DƯỚI: counter + chỗ đặt nút phụ trong tương lai -->
+  <div class="toolbar-sub">
+    <button id="btnCollapse" class="btn-sm">Clear</button>
+    <button id="btnReset" class="btn-sm">Reset</button>
+
+    <div class="sub-spacer"></div>   <!-- thêm dòng này -->
+    <span id="counter">Đang tải…</span>
+
+  </div>
+
 </div>
+
 
 <!-- ======================== CARD GRID ============================ -->
 <div id="cardContainer"></div>
