@@ -30,7 +30,7 @@
                    "Open Sans", "Helvetica Neue", sans-serif;
       margin: 0;
       background: #f5f5f5;
-      padding-top: 112px; /* chừa chỗ cho thanh header cố định */
+      padding-top: 84px; /* chừa chỗ cho thanh header cố định */
       color: #111827;
   }
 
@@ -106,9 +106,9 @@
   #cardContainer {
       max-width: 1100px;
       margin: auto;
-      padding: 12px;
+      padding: 8px;
       display: grid;
-      gap: 10px;
+      gap: 5px;
       grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
   }
 
@@ -131,12 +131,12 @@
   :root{
     --cols: 3;                /* đổi 3/4/5 tùy ý */
     --fs-hira: 11px;
-    --fs-word: 23px;
+    --fs-word: 24px;
     --fs-mean: 10px;
     --fs-sino: 8px;
 
     --h-hira: 12px;
-    --h-word: 30px;
+    --h-word: 32px;
     --h-mean: 22px;
     --h-sino: 8px;
   }
@@ -147,7 +147,7 @@
   :root{
     --cols: 3;
     --fs-hira: 10px;
-    --fs-word: 20px;
+    --fs-word: 22px;
     --fs-mean: 9px;
     --fs-sino: 7px;
 
@@ -177,7 +177,7 @@
 
   .card {
       background: #fff;
-      border-radius: 12px;
+      border-radius: 5px;
       padding: 6px 8px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.08);
       text-align: center;
@@ -234,7 +234,7 @@
 
   <!-- HÀNG DƯỚI: counter + chỗ đặt nút phụ trong tương lai -->
   <div class="toolbar-sub">
-    <button id="btnCollapse" class="btn-sm">Clear</button>
+    <button id="btnCollapse" class="btn-sm">Xóa ẩn</button>
     <button id="btnReset" class="btn-sm">Reset</button>
 
     <div class="sub-spacer"></div>   <!-- thêm dòng này -->
