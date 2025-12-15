@@ -362,17 +362,17 @@ function initToolbar() {
   document.getElementById("btnReset").onclick = () => {
     const items = DATA[current] || [];
 
-    // Đếm nhanh để hiện trong hộp thoại (không bắt buộc)
-    let nHidden = 0, nRemoved = 0;
-    items.forEach((_, i) => {
-      if (localStorage.getItem(hideKey(current,i)) === "true")    nHidden++;
-      if (localStorage.getItem(removedKey(current,i)) === "true") nRemoved++;
-    });
+    // // Đếm nhanh để hiện trong hộp thoại (không bắt buộc)
+    // let nHidden = 0, nRemoved = 0;
+    // items.forEach((_, i) => {
+    //   if (localStorage.getItem(hideKey(current,i)) === "true")    nHidden++;
+    //   if (localStorage.getItem(removedKey(current,i)) === "true") nRemoved++;
+    // });
 
     const ok = confirm(
-      `Reset cấp ${current}?\n` +
-      `- Ô đang ẩn: ${nHidden}\n` +
-      `- Ô đã loại: ${nRemoved}\n\n` +
+      // `Reset cấp ${current}?\n` +
+      // `- Ô đang ẩn: ${nHidden}\n` +
+      // `- Ô đã loại: ${nRemoved}\n\n` +
       `Thao tác này sẽ hiển thị lại TẤT CẢ và bật Hira/Nghĩa/Hán.\n` +
       `Bạn có chắc chắn muốn Reset?`
     );
@@ -399,4 +399,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
 
