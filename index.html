@@ -361,6 +361,24 @@ function initToolbar() {
   // Reset: hiện lại tất cả, bỏ đánh dấu ẩn & đã loại của cấp hiện tại
   document.getElementById("btnReset").onclick = () => {
     const items = DATA[current] || [];
+
+    // Đếm nhanh để hiện trong hộp thoại (không bắt buộc)
+    let nHidden = 0, nRemoved = 0;
+    items.forEach((_, i) => {
+      if (localStorage.getItem(hideKey(current,i)) === "true")    nHidden++;
+      if (localStorage.getItem(removedKey(current,i)) === "true") nRemoved++;
+    });
+
+    const ok = confirm(
+      `Reset cấp ${current}?\n` +
+      `- Ô đang ẩn: ${nHidden}\n` +
+      `- Ô đã loại: ${nRemoved}\n\n` +
+      `Thao tác này sẽ hiển thị lại TẤT CẢ và bật Hira/Nghĩa/Hán.\n` +
+      `Bạn có chắc chắn muốn Reset?`
+    );
+    if (!ok) return;
+
+    // Tiến hành reset
     items.forEach((_, idx) => {
       localStorage.removeItem(hideKey(current, idx));
       localStorage.removeItem(removedKey(current, idx));
@@ -371,7 +389,6 @@ function initToolbar() {
     localStorage.setItem("show_sino","true");
     render();
   };
-}
 
 /* 5) START */
 document.addEventListener("DOMContentLoaded", () => {
@@ -382,3 +399,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
+
