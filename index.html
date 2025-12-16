@@ -9,22 +9,57 @@
 
 <style>
   :root{
-    /* số cột mặc định */
-    --cols: 6;
+    /* ✅ mặc định cho PHONE */
+    --cols: 3;
 
-    /* cỡ chữ mặc định (desktop/iPad ngang) */
-    --fs-hira: 14px;
-    --fs-word: 28px;
-    --fs-mean: 13px;
-    --fs-sino: 11px;
-    --fs-engl: 13px;
+    --fs-hira: 11px;
+    --fs-word: 24px;
+    --fs-mean: 10px;
+    --fs-sino: 8px;
+    --fs-engl: 10px;
 
-    /* chiều cao dòng (để không nhảy layout) */
-    --h-hira: 18px;
-    --h-word: 52px;
-    --h-mean: 36px;
-    --h-sino: 16px;
-    --h-engl: 16px;
+    --h-hira: 12px;
+    --h-word: 32px;
+    --h-mean: 22px;
+    --h-sino: 8px;
+    --h-engl: 10px;
+  }
+
+  /* iPhone nhỏ (SE/mini) */
+  @media (max-width: 360px){
+    :root{
+      --cols: 3;
+      --fs-hira: 10px;
+      --fs-word: 22px;
+      --fs-mean: 9px;
+      --fs-sino: 7px;
+      --fs-engl: 9px;
+
+      --h-hira: 12px;
+      --h-word: 30px;
+      --h-mean: 20px;
+      --h-sino: 7px;
+      --h-engl: 9px;
+    }
+  }
+
+  /* ✅ iPad / Desktop: mới nâng lên 6 cột */
+  @media (min-width: 768px){
+    :root{
+      --cols: 6;
+
+      --fs-hira: 14px;
+      --fs-word: 28px;
+      --fs-mean: 13px;
+      --fs-sino: 11px;
+      --fs-engl: 13px;
+
+      --h-hira: 18px;
+      --h-word: 52px;
+      --h-mean: 36px;
+      --h-sino: 16px;
+      --h-engl: 16px;
+    }
   }
 
   body {
@@ -128,62 +163,6 @@
 
   .engl { height: var(--h-engl); line-height: var(--h-engl);
           margin-top:2px; font-size: var(--fs-engl); color:#2d5dc5; }
-
-
-  /* iPhone dọc (Pro/Pro Max hiện đại) — bạn có thể chỉnh 4 hoặc 5 cột */
- /* iPhone dọc (Pro/Pro Max) */
-@media (max-width: 430px){
-  :root{
-    --cols: 3;                /* đổi 3/4/5 tùy ý */
-    --fs-hira: 11px;
-    --fs-word: 24px;
-    --fs-mean: 10px;
-    --fs-sino: 8px;
-    --fs-engl: 10px;
-
-    --h-hira: 12px;
-    --h-word: 32px;
-    --h-mean: 22px;
-    --h-sino: 8px;
-    --h-engl: 10px;
-  }
-}
-
-/* iPhone nhỏ (SE/mini) */
-@media (max-width: 360px){
-  :root{
-    --cols: 3;
-    --fs-hira: 10px;
-    --fs-word: 22px;
-    --fs-mean: 9px;
-    --fs-sino: 7px;
-    --fs-engl: 9px;
-
-    --h-hira: 12px;
-    --h-word: 30px;
-    --h-mean: 20px;
-    --h-sino: 7px;
-    --h-engl: 9px;
-  }
-}
-
-/* iPad / Mac (thiết bị có hover + pointer mịn) */
-@media (hover: hover) and (pointer: fine) and (min-width: 768px){
-  :root{
-    --cols: 6;
-    --fs-hira: 14px;
-    --fs-word: 28px;
-    --fs-mean: 13px;
-    --fs-sino: 11px;
-    --fs-engl: 13px;
-
-    --h-hira: 18px;
-    --h-word: 52px;
-    --h-mean: 36px;
-    --h-sino: 16px;
-    --h-engl: 16px;
-  }
-}
 
 
   .card {
