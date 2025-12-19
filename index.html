@@ -382,23 +382,22 @@ function removedKey(lv, idx){ return `removed_${lv}_${idx}`; }
 ================================================================ */
 function rebuildViewSet() {
   const items = DATA[current] || [];
-  const s = new Set();
+  viewSet = new Set();
 
-  for (let idx = 0; idx < items.length; idx++) {
-    const isRemoved = localStorage.getItem(removedKey(current, idx)) === "true";
-    if (isRemoved) continue;
-
+  items.forEach((_, idx) => {
     const isHidden  = localStorage.getItem(hideKey(current, idx)) === "true";
+    const isRemoved = localStorage.getItem(removedKey(current, idx)) === "true";
 
     if (viewMode === "remembered") {
-      if (isHidden) s.add(idx);
+      // ✅ Đã nhớ: hiển thị theo hide, KHÔNG quan tâm removed
+      if (isHidden) viewSet.add(idx);
     } else {
-      if (!isHidden) s.add(idx);
+      // ✅ Chưa nhớ: ẩn thì không hiện + removed thì không hiện
+      if (!isHidden && !isRemoved) viewSet.add(idx);
     }
-  }
-
-  viewSet = s;
+  });
 }
+
 
 /* ================================================================
    4) UI HELPERS
@@ -429,13 +428,57 @@ function render() {
   const box = document.getElementById("cardContainer");
   if (!box) return;
 
-  if (!viewSet) rebuildViewSet();
-
   box.innerHTML = "";
   const items = DATA[current] || [];
   let showing = 0;
 
-  // ✅ Render theo snapshot viewSet
+  // ============================================================
+  // ✅ MODE: ĐÃ THUỘC (remembered)
+  // - Render trực tiếp theo hideKey == true
+  // - BỎ QUA removedKey để không bị rỗng list
+  // ============================================================
+  if (viewMode === "remembered") {
+    for (let idx = 0; idx < items.length; idx++) {
+      const it = items[idx];
+      if (!it) continue;
+
+      const kHide = hideKey(current, idx);
+      const isHidden = localStorage.getItem(kHide) === "true";
+      if (!isHidden) continue; // chỉ hiện từ đã ẩn = đã thuộc
+
+      const card = document.createElement("div");
+      card.className = "card remembered";
+      card.dataset.idx = idx;
+
+      // Tap vẫn chỉ toggle hide, KHÔNG remove, KHÔNG rebuild snapshot
+      card.onclick = () => {
+        const now = localStorage.getItem(kHide) === "true";
+        localStorage.setItem(kHide, (!now).toString());
+        render();
+      };
+
+      card.innerHTML = `
+        <div class="hira ${showHira?'':'soft-hide'}">${it.hira||''}</div>
+        <div class="word">${it.word||''}</div>
+        <div class="mean ${showMean?'':'soft-hide'}">${it.mean||''}</div>
+        <div class="sino ${showSino?'':'soft-hide'}">${it.sino||''}</div>
+        <div class="engl ${showEngl?'':'soft-hide'}">${it.engl||''}</div>
+      `;
+
+      box.appendChild(card);
+      showing++;
+    }
+
+    updateToolbarUI(showing);
+    return; // ✅ quan trọng: thoát sớm
+  }
+
+  // ============================================================
+  // ✅ MODE: CHƯA NHỚ (learning)
+  // - Giữ nguyên snapshot viewSet để tap không làm biến mất ngay
+  // ============================================================
+  if (!viewSet) rebuildViewSet();
+
   for (const idx of viewSet) {
     const it = items[idx];
     if (!it) continue;
@@ -451,19 +494,11 @@ function render() {
     card.onclick = () => {
       const now = localStorage.getItem(kHide) === "true";
       localStorage.setItem(kHide, (!now).toString());
-      // ✅ chỉ re-render để đổi overlay / style, không đổi viewSet
       render();
     };
 
-    // ✅ View "Chưa nhớ": nếu hidden -> overlay (ẩn trắng) để test
-    // ✅ View "Đã nhớ": KHÔNG overlay, hiển thị bình thường + style "remembered"
-    if (isHidden) {
-      if (viewMode === "learning") {
-        card.classList.add("hidden", "masked");
-      } else {
-        card.classList.add("remembered");
-      }
-    }
+    // learning: hidden -> overlay che trắng (test)
+    if (isHidden) card.classList.add("hidden", "masked");
 
     card.innerHTML = `
       <div class="hira ${showHira?'':'soft-hide'}">${it.hira||''}</div>
@@ -479,6 +514,7 @@ function render() {
 
   updateToolbarUI(showing);
 }
+
 
 /* ================================================================
    6) INIT TOOLBAR
